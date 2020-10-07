@@ -1,0 +1,20 @@
+[
+  {
+    "CountryCode": "NZ",
+    "Name": "New Zealand",
+    "Nationality": "New Zealander",
+    "Capital": "Auckland",
+    "Area": 268021,
+    "Population": 4.886,
+    "GDP": 204.9
+  },
+  {
+    "CountryCode": "AUS",
+    "Name": "Australia",
+    "Nationality": "Australian",
+    "Capital": "Canberra",
+    "Area": 7692000,
+    "Population": 24.99,
+    "GDP": 1434
+  }
+]
