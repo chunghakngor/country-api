@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using country_api.Models;
+using country_api.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace country_api.Controllers
 {
@@ -13,25 +9,21 @@ namespace country_api.Controllers
     [ApiController]
     public class CountryController : ControllerBase
     {
-        private readonly CountryContext _context;
+        private readonly CountryService _countryService;
 
-        public CountryController(CountryContext context)
+        public CountryController(CountryService countryService)
         {
-            _context = context;
+            _countryService = countryService;
         }
 
-        // GET: api/Country
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Country>>> GetCountry()
-        {
-            return await _context.Country.ToListAsync();
-        }
+        public ActionResult<List<Country>> Get() =>
+            _countryService.Get();
 
-        // GET: api/Country/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Country>> GetCountry(int id)
+        [HttpGet("{id:length(24)}", Name = "GetCountry")]
+        public ActionResult<Country> Get(string id)
         {
-            var country = await _context.Country.FindAsync(id);
+            var country = _countryService.Get(id);
 
             if (country == null)
             {
@@ -41,69 +33,42 @@ namespace country_api.Controllers
             return country;
         }
 
-        // PUT: api/Country/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCountry(int id, Country country)
+        [HttpPost]
+        public ActionResult<Country> Create(Country country)
         {
-            if (id != country.Id)
+            _countryService.Create(country);
+
+            return CreatedAtRoute("GetCountry", new { id = country.Id.ToString() }, country);
+        }
+
+        [HttpPut("{id:length(24)}")]
+        public IActionResult Update(string id, Country countryIn)
+        {
+            var country = _countryService.Get(id);
+
+            if (country == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(country).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CountryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _countryService.Update(id, countryIn);
 
             return NoContent();
         }
 
-        // POST: api/Country
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Country>> PostCountry(Country country)
+        [HttpDelete("{id:length(24)}")]
+        public IActionResult Delete(string id)
         {
-            _context.Country.Add(country);
-            await _context.SaveChangesAsync();
+            var country = _countryService.Get(id);
 
-            return CreatedAtAction(nameof(GetCountry), new { id = country.Id}, country);
-        }
-
-        // DELETE: api/Country/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Country>> DeleteCountry(int id)
-        {
-            var country = await _context.Country.FindAsync(id);
             if (country == null)
             {
                 return NotFound();
             }
 
-            _context.Country.Remove(country);
-            await _context.SaveChangesAsync();
+            _countryService.Remove(country.Id);
 
-            return country;
-        }
-
-        private bool CountryExists(int id)
-        {
-            return _context.Country.Any(e => e.Id == id);
+            return NoContent();
         }
     }
 }

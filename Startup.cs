@@ -11,7 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using country_api.Models;
+using country_api.Services;
 
 namespace country_api
 {
@@ -27,7 +29,12 @@ namespace country_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CountryContext>(opt => opt.UseInMemoryDatabase("Country"));
+            services.Configure<CountryDatabaseSettings>(Configuration.GetSection(nameof(CountryDatabaseSettings)));
+
+            services.AddSingleton<ICountryDatabaseSettings>(sp => sp.GetRequiredService<IOptions<CountryDatabaseSettings>>().Value);
+
+            services.AddSingleton<CountryService>();
+
             services.AddControllers();
         }
 
