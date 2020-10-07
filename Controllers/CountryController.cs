@@ -1,7 +1,19 @@
+using Microsoft.AspNetCore.Mvc;
 namespace country_api.Controllers
 {
-    public class CountryController
+    [ApiController]
+    [Route("[controller]")]
+    public class CountryController : ControllerBase
     {
         
+        [HttpGet("{CountryCode}")]
+        public IActionResult GetCountry(){ 
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult PostCountry(){
+            return Ok();
+        }
     }
 }
