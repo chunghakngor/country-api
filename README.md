@@ -31,3 +31,17 @@ To access:
 http://localhost:5000/api/country
 https://localhost:5001/api/country
 ```
+
+Response example:
+```
+{
+    id: "5f7d4c6716e25eeaf2aa83bf",
+    countryCode: "NZ",
+    name: "New Zealand",
+    nationality: "New Zealander",
+    capital: "Auckland",
+    area: 268021,
+    population: 4.886,
+    gdp: 204.9
+}
+```
