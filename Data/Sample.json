@@ -16,5 +16,23 @@
     "Area": 7692000,
     "Population": 24.99,
     "GDP": 1434
+  },
+  {
+    "CountryCode": "KH",
+    "Name": "Cambodia",
+    "Nationality": "Khmer",
+    "Capital": "Phnom Penh",
+    "Area": 181035,
+    "Population": 16.25,
+    "GDP": 25.54
+  },
+  {
+    "CountryCode": "TH",
+    "Name": "Thailand",
+    "Nationality": "Thai",
+    "Capital": "Bangkok",
+    "Area": 513120,
+    "Population": 66.558,
+    "GDP": 1390
   }
 ]
