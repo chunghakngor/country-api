@@ -48,4 +48,4 @@ https://localhost:5001/swagger/index.html
 ```
 
 ## [Swagger Support for Documentation](https://localhost:5001/swagger/index.html)
-![](Docs/swagger.png)
+![](Data/swagger.png)
