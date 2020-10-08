@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 namespace country_api.Controllers
 {
+    /// <summary>
+    /// Country API Routes
+    /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     // Sets the route for the controller host:<port>/api/Country
     [ApiController]
@@ -18,11 +22,17 @@ namespace country_api.Controllers
             _countryService = countryService;
         }
 
+        /// <summary>
+        /// Return a list of countries
+        /// </summary>
         [HttpGet]
         // Returns a list of all the country
         public ActionResult<List<Country>> Get() =>
             _countryService.Get();
 
+        /// <summary>
+        /// Return a country from the ID
+        /// </summary>
         [HttpGet("{id:length(24)}", Name = "GetCountry")]
         // Return a country from the Id
         public ActionResult<Country> Get(string id)
@@ -38,8 +48,10 @@ namespace country_api.Controllers
             return country;
         }
 
+        /// <summary>
+        /// Create a new country
+        /// </summary>
         [HttpPost]
-        // POST route for a new country
         public ActionResult<Country> Create(Country country)
         {
             _countryService.Create(country);
@@ -47,8 +59,10 @@ namespace country_api.Controllers
             return CreatedAtRoute("GetCountry", new { id = country.Id.ToString() }, country);
         }
 
+        /// <summary>
+        /// Edit an existing country by ID
+        /// </summary>
         [HttpPut("{id:length(24)}")]
-        // PUT Route for an existing country (requires the country ID)
         public IActionResult Update(string id, Country countryIn)
         {
             var country = _countryService.Get(id);
@@ -63,8 +77,10 @@ namespace country_api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Delete a country by ID
+        /// </summary>
         [HttpDelete("{id:length(24)}")]
-        // DEL Route from using country Id
         public IActionResult Delete(string id)
         {
             var country = _countryService.Get(id);

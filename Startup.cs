@@ -14,7 +14,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using country_api.Models;
 using country_api.Services;
-
+using System.Reflection;
+using System.IO;
+using Microsoft.OpenApi.Models;
 namespace country_api
 {
     public class Startup
@@ -36,6 +38,23 @@ namespace country_api
             services.AddSingleton<CountryService>();
 
             services.AddControllers();
+
+            services.AddSwaggerGen(opt =>
+            {
+
+                opt.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Country API",
+                    Description = "Learning basic .NET Core by implementation of an API for a country statistics",
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                opt.IncludeXmlComments(xmlPath);
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +65,7 @@ namespace country_api
                 app.UseDeveloperExceptionPage();
             }
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -55,6 +74,13 @@ namespace country_api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(opt =>
+            {
+                opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Country API V1.0");
             });
         }
     }
