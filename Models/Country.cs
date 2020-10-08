@@ -12,7 +12,7 @@ namespace country_api.Models
         public string Id { get; set; }
 
         /// <summary> The International Country Code of the Country </summary>
-        [Required]
+        [Required]        
         public string CountryCode { get; set; }
         
         /// <summary> The Name of the Country </summary>
