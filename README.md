@@ -30,6 +30,7 @@ To access:
 ```
 http://localhost:5000/api/country
 https://localhost:5001/api/country
+https://localhost:5001/swagger/index.html
 ```
 
 Response example:
